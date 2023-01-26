@@ -1,6 +1,7 @@
 import { AsyncResult, Ok, Err } from "../utils/result";
 import fetch from "node-fetch";
 import { SSD } from "../bindings/SSD";
+import { CreateProcedureOptions } from "@trpc/server/dist/declarations/src/internals/procedure";
 
 type CompileResponse = {
   message: string;
@@ -29,7 +30,7 @@ export const compile = async (code: string): AsyncResult<CompileResponse> => {
     return Err(new Error("Failed to compile code"));
   }
 
-  const compileResponse: CompileResponse = await response.json();
+  const compileResponse: CompileResponse = await response.json() as CompileResponse;
 
   return Ok(compileResponse);
 };

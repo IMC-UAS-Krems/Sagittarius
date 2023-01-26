@@ -1,4 +1,5 @@
-FROM node:latest
+# BUILD STAGE
+FROM node:latest as build-stage
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -20,6 +21,13 @@ RUN npx prisma db pull --schema ./node_modules/sagittarius-server/prisma/schema.
 
 RUN npx prisma generate --schema ./node_modules/sagittarius-server/prisma/schema.prisma
 
+RUN npm run build
+
+# PRODUCTION STAGE
+FROM nginx:stable-alpine as production-stage
+
+COPY --from=build-stage usr/src/app/dist /usr/share/nginx/html
+
 EXPOSE 8081
 
-RUN ["npm", "run", "build"]
+CMD ["nginx", "-g", "daemon off;"]
