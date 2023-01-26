@@ -1,6 +1,6 @@
 [submodule "Sagittarius-Server"]
-	path = Sagittarius-Server
+	path = src/Sagittarius-Server
 	url = https://github.com/IMC-UAS-Krems/Sagittarius-Server
 [submodule "Sagittarius-Client"]
-	path = Sagittarius-Client
+	path = src/Sagittarius-Client
 	url = https://github.com/IMC-UAS-Krems/Sagittarius-Client
