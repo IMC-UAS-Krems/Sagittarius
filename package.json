@@ -1,0 +1,21 @@
+{
+  "name": "sagittarius",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "concurrently \"wsrun --parallel start\""
+  },
+  "workspaces": [
+    "src/*"
+  ],
+  "devDependencies": {
+    "@types/file-saver": "^2.0.5",
+    "concurrently": "^5.2.0",
+    "wsrun": "^5.2.0"
+  },
+  "dependencies": {
+    "file-saver": "^2.0.5"
+  }
+}
