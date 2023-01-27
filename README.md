@@ -31,6 +31,16 @@ The client is built using the following architecture:
 - A [Vuejs](https://vuejs.org) App, which handles routing and all user management interactions.
 - A [monaco editor](https://microsoft.github.io/monaco-editor/) interface for code editing.
 
+
+## PULL FROM SUBMODULES
+```shell
+$ git submodule update --remote
+
+$ git commit -m "merged updates"
+
+$ git push 
+```
+
 ## Running
 
 #### Server
