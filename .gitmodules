@@ -6,3 +6,6 @@
 	path = src/client
 	url = https://github.com/IMC-UAS-Krems/Sagittarius-Client
 	branch = main
+[submodule "src/compiler"]
+	path = src/compiler
+	url = https://github.com/IMC-UAS-Krems/Sagc
