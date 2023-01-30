@@ -116,6 +116,17 @@ The compiler itself is composed of 3 layers:
 ## Contributing
 
 ### Getting Started
+Clone all repositories by running the following commands:
+```bash
+git clone --recurse-submodules https://github.com/IMC-UAS-Krems/Sagittarius
+
+git clone https://github.com/IMC-UAS-Krems/Sagc compiler
+
+git clone https://github.com/IMC-UAS-Krems/Sagittarius-Client client
+
+git clone https://github.com/IMC-UAS-Krems/Sagittarius-Server server
+```
+
 This project makes use of git submodules, thus it is necessary to operate on the **INDIVIDUAL** repositories, rather than the monorepo.
 
 * Step 1: Clone the repository
