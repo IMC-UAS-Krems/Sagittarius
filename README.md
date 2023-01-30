@@ -1,93 +1,195 @@
-# S²AGittarius (Smart Service Architecture Generator)
+# S²AGittarius - Smart Service Architecture Generator
 
 ![S²AGittarius banner](media/banner.svg?raw=true "banner")
 
+## Index
+
+### Introduction
+
+* [What is S²AGittarius](#what-is-s²agittarius)
+* [Users](#users)
+* [The Black Box hypothesis](#the-black-box-hypothesis)
+
+### Components
+
+* [Client](#client)
+* [Server](#server)
+* [Compiler](#compiler)
+
+### Contributing
+
+* [Getting started](#getting-started)
+* [Project structure](#project-structure)
+
+### Building
+
+* [Individual components](#individual-components)
+* [Entire Project](#entire-project)
+
+### Inquiries
+
+### Copyright
+
 ## Introduction
 
-S²AGittarius is a monorepo project containing a [Vuejs client app](src/client/src/App.vue), which hosts the code editor, and an [Express](src/server/src/api.ts) app which handles authentication, data storage and redirection towards the [compiler](https://github.com/UnknownEquineCoder/SSDL-Language).
+### What is S²AGittarius
 
-## Architecture
+S²AGittarius (Smart Service Architecture Generator) is an ecosystem of services that fulfil 3 main goals:
 
-The repository hosts both projects, as required by [tRPC](https://trpc.io) to add Types to the Vuejs client.
-The main goal of the following architecture is to make the project:
+* *Develop* smart service and IOT-based apps.
+* *Analyse* data from existing (and user-created) services.
+* *Browse* and archive existing services.
 
-- Type-safe
-- Flexible
-- Lightweight
+### Users
 
-#### Server
+There exist two kinds of users that our product tries to reach out to and whose needs we wish to satisfy:
 
-The server is built using the following architecture:
+* **Non-technical users**, whose main goal is taking a formal description of their goals and see it being achieved, in the most transparent and painless way.
+* **Technical users**, who are looking for solutions to streamline their development process and that would see collaborations between users of different backgrounds as a source of enrichment and variety to the ecosystem.
 
-- A [supabase](https://supabase.com) instance is delegated for data storage, all data is stored using PostgreSQL.
-- A [prisma](https://www.prisma.io) schema is defined inside the app, so no raw SQL is ever used, only Typescript.
-- A [tRPC](https://trpc.io) Rest API is responsible for routing (such routes are also exposed in the client).
-- An [express](https://expressjs.com) http server runs the app and exposes it to the web.
+### The Black Box hypothesis
 
-#### Client
+In the scientific and philosophical world, a [Black Box](https://en.wikipedia.org/wiki/Black_box) is a system whose only known features are the requirements and the results, abstracting away complexity and precise implementation details.
+This should constitute, by no means, the refusal for the project to belong in the open source environment or to [hide security flaws through obscurity](https://en.wikipedia.org/wiki/Security_through_obscurity).
+The idea behind a Black Box model refers to the expected user experience such system would like to achieve: that is, taking the user's needs and providing meaningful results, without requiring document skimming, arduous API specifications or the need for further tools to be adopted into the architecture.
+We wish for our product to be plug-and-play *by design*.
 
-The client is built using the following architecture:
+## Components
 
-- A [Vuejs](https://vuejs.org) App, which handles routing and all user management interactions.
-- A [monaco editor](https://microsoft.github.io/monaco-editor/) interface for code editing.
+### Client
 
+The S²AGittarius client is the main interface most users will interact with on a daily basis. On a philosophical level, it represents the entry point to the Black Box. The client is made up of 2 main components:
 
-## PULL FROM SUBMODULES
-```shell
-$ git submodule update --remote
+* **Editor**\: in the Editor, users can compose new projects, by writing .sags ([pronunciation](https://dictionary.cambridge.org/dictionary/english/suggest)) files. The editor offers basic syntax highlighting capabilities. In future, we envision the editor offering a NodeRed editing version as well as providing more advanced syntax highlighting.
+* **Browser**\: in the Browser, users can find other smart services, filter them by scope, location or scale, as well as select pre-existing or user-defined templates for their own projects.
 
-$ git commit -m "merged updates"
+#### Techstack:
 
-$ git push 
+* [Vue](https://vuejs.org)
+* [Typescript](https://www.typescriptlang.org)
+* [Vite](https://vitejs.dev)
+* [Monaco Editor](https://microsoft.github.io/monaco-editor/)
+
+### Server
+
+The S²AGittarius client serves as a router for every other service in the ecosystem.
+It comprises 3 main routes which abstract communication between services:
+
+* `/auth`\: handle user authentication. User authentication is handled by a [`Supabase instance`](https://app.supabase.com/project/emxyzfhgzleftdsapoez).
+  * `/login` [username: str, password: str] → login as an existing user.
+  * `/signup` [username: str, email: str, password: str] → register a new user.
+  * `/logout` → terminate current session and log out.
+* `/data`\: retrieve data from one external data source. Data sources include our [`Supabase instance`](https://app.supabase.com/project/emxyzfhgzleftdsapoez) as well as other consortium partner's services.
+  * `/devices` → find devices and services.
+  * `/documents` → find documentations.
+  * `/organisations` → find organisations.
+  * `/measures` → find data gathered by other services.
+  * `/templates` → find project templates built-in or generated by other users.
+* `/compile`\: send a .sags file to a remote SAG-Compiler instance and deploy a full-stack web app on successful compilation.
+  * `/build` → upload a `.sags` file and build a compiled `.ssd` file (for caching purposes only).
+  * `/export` → upload a `.sags` file and build a full-stack web app with a docker compose file (for local hosting purposes).
+  * `/deploy` → upload a `.sags` file and deploy a full-stack web app on the specified provider.
+
+#### Techstack:
+
+* [Express](https://expressjs.com)
+* [Prisma](https://prisma.brendonovich.dev/getting-started/setup)
+* [Supabase](https://supabase.io)
+* [Typescript](https://www.typescriptlang.org)
+* [tRPC](https://trpc.io)
+
+### Compiler
+
+The S²AGittarius compiler is responsible for transforming source `.sagc` files into full-stack web apps.
+The compiler itself is composed of 3 layers:
+
+* **Frontend**\: The compiler frontend is responsible for preliminary parsing and caching of source files. Its job is to parse `.sagc` files into `.ssd` files, which serve as intermediate representation for the compiling process.
+* **Linker**\: The compiler linker is responsible for taking intermediate representation files and compile them into a full-stack web app (constituted of a FastAPI backend and a Typescript frontend [precise framework to be defined]) and a Dockerfile for deployment.
+* **Orchestrator**\: The compiler orchestrator is responsible for taking a full-stack web app and a Dockerfile and deploy it remotely.
+
+#### Techstack:
+
+* [Rust](https://www.rust-lang.org)
+* [nom](https://github.com/Geal/nom)
+* [Rocket](https://rocket.rs)
+
+## Contributing
+
+### Getting Started
+This project makes use of git submodules, thus it is necessary to operate on the **INDIVIDUAL** repositories, rather than the monorepo.
+
+* Step 1: Clone the repository
+```bash
+git clone <component-name>
 ```
 
-## Running
+* Step 2: Install dependencies
+  - Typescript projects: 
+    - ```npm install```
+  - Rust projects: 
+    - ```rustup update```
+    - ```rustup default nightly```
+    - ```cargo build``` (or ```cargo run```)
 
-#### Server
+* Step 3: Save your changes and push them to the repository
+```bash
+git add .
 
-##### node
+git commit -m "commit message"
 
-```shell
-$ npm run start
+git push -u main main
 ```
 
-##### yarn
+* Step 4: Propagate changes to the monorepo
+```bash
+cd <monorepo-folder>
 
-```shell
-$ yarn start
+git submodule update --remote
 ```
 
-##### bun
+* Step 5: Commit and push changes to the monorepo
+```bash
+git add .
 
-```shell
-$ bun run start
+git commit -m "commit message"
+
+git push -u main main
 ```
 
-&nbsp;
+### Project Structure
+The project is structured as follows:
+- [`client`](https://github.com/IMC-UAS-Krems/Sagittarius-Client) contains the source code for the S²AGittarius client.
+- [`compiler`](https://github.com/IMC-UAS-Krems/Sagc) contains the source code for the S²AGittarius compiler.
+- [`server`](https://github.com/IMC-UAS-Krems/Sagittarius-Server) contains the source code for the S²AGittarius server.
 
-#### Client
+In order to contribute to each repository, please refer to the individual git projects. Make sure to follow the instructions in the README files.
 
-##### node
+## Building
+### Individual Components
+Individual components can be built by following the instructions in the README files of each repository.
 
-```shell
-$ npm run serve
+#### Docker
+Dockerfiles for each component are available in the respective repositories.
+
+Build the images following these steps:
+```bash
+docker build -t <image-name> .
 ```
 
-##### yarn
-
-```shell
-$ yarn serve
+Run the images following these steps:
+```bash
+docker run -p <host-port>:<container-port> <image-name>
 ```
 
-##### bun
+Alternatively, you may use Docker Desktop to build and run the images.
 
-```shell
-$ bun run serve
-```
+### Entire Project
+To build the entire project make use of the Docker compose file provided in this directory.
 
-&nbsp;
+## Inquiries
+If you face any problem with documentation and/or development please refer to [Antonino Rossi](mailto:21imc10066@fh-krems.ac.at).
 
 ## Copyright
+© 2022 IMC FH Krems
 
-Antonino Rossi aka [UnknownEquineCoder](https://github.com/UnknownEquineCoder)  
 Logos and banners courtesy of [Lily](https://lilyoko.myportfolio.com)
