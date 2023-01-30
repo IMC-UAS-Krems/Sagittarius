@@ -9,3 +9,5 @@
 [submodule "src/compiler"]
 	path = src/compiler
 	url = https://github.com/IMC-UAS-Krems/Sagc
+    branch = main
+
