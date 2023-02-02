@@ -1,0 +1,17 @@
+version: '3'
+services:
+  server:
+    build:
+      context: ./src/server
+    ports:
+      - "8080:8080"
+  client:
+    build:
+      context: ./src/client
+    ports:
+      - "3000:80"
+  compiler:
+    build:
+      context: ./src/compiler
+    ports:
+      - "8796:8796"
