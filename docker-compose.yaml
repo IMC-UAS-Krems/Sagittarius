@@ -3,13 +3,22 @@ services:
   server:
     build:
       context: ./src/server
+      args:
+        compiler: ${COMPILER_URL}
+        db: ${DATABASE_URL}
+        supabase: ${SUPABASE_URL}
+        key: ${SUPABASE_KEY}
+        client: ${CLIENT_URL}
     ports:
-      - "8081:8080"
+      - "8080:8080"
   client:
     build:
       context: ./src/client
+      args:
+        server: ${VUE_APP_SERVER_URL}
+        db: ${DATABASE_URL}
     ports:
-      - "3001:80"
+      - "3000:80"
   compiler:
     build:
       context: ./src/compiler
