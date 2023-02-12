@@ -148,7 +148,7 @@ git add .
 
 git commit -m "commit message"
 
-git push -u main main
+git push
 ```
 
 * Step 4: Propagate changes to the monorepo
@@ -164,7 +164,7 @@ git add .
 
 git commit -m "commit message"
 
-git push -u main main
+git push
 ```
 
 ### Project Structure
@@ -196,6 +196,21 @@ Alternatively, you may use Docker Desktop to build and run the images.
 
 ### Entire Project
 To build the entire project make use of the Docker compose file provided in this directory.
+
+Firstly, expose the environment variables:
+```bash
+source .env
+```
+
+Build the images
+```bash
+docker-compose build
+```
+
+Run the images
+```bash
+docker-compose up
+```
 
 ## Inquiries
 If you face any problem with documentation and/or development please refer to [Antonino Rossi](mailto:21imc10066@fh-krems.ac.at).
