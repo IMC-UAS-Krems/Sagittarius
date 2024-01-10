@@ -1,6 +1,5 @@
 # S²AGittarius - Smart Service Architecture Generator
 
-![S²AGittarius banner](media/banner.svg?raw=true "banner")
 
 ## Index
 
