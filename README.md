@@ -216,5 +216,3 @@ If you face any problem with documentation and/or development please refer to [A
 
 ## Copyright
 © 2022 IMC FH Krems
-
-Logos and banners courtesy of [Lily](https://lilyoko.myportfolio.com)
