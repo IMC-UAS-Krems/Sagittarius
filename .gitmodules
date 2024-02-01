@@ -1,13 +1,20 @@
-[submodule "src/server"]
-	path = src/server
-	url = https://github.com/IMC-UAS-Krems/Sagittarius-Server
-	branch = main
-[submodule "src/client"]
-	path = src/client
-	url = https://github.com/IMC-UAS-Krems/Sagittarius-Client
-	branch = main
-[submodule "src/compiler"]
+[submodule "compiler"]
 	path = src/compiler
-	url = https://github.com/IMC-UAS-Krems/Sagc
-    branch = main
-
+	url = https://github.com/IMC-UAS-Krems/Sag-c.git
+	branch = main
+[submodule "grafana_dashboard"]
+	path = src/grafana_dashboard
+	url = https://github.com/IMC-UAS-Krems/GrafanaDashboards.git
+	branch = main
+[submodule "web_server_client"]
+	path = src/web_server_client
+	url = https://github.com/IMC-UAS-Krems/sag-client-server.git
+	branch = main
+[submodule "dash_dashboard"]
+	path = src/dash_dashboard
+	url = https://github.com/IMC-UAS-Krems/Sagittarius-Dash-Dashboard.git
+	branch = master
+[submodule "deployer"]
+	path = src/deployer
+	url = https://github.com/IMC-UAS-Krems/Sagittarius-Deployment.git
+	branch = master
