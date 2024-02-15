@@ -34,7 +34,7 @@ services:
     environment:
       JWT_SECRET: ${JWT_SECRET}
       DATABASE_URL: ${DATABASE_URL}
-      VITE_MAPBOX_ACCESS_TOKEN: ${VITE_MAPBOX_ACCESS_TOKEN}
+      COMPILER_URL: ${COMPILER_URL}
 
   client:
     container_name: sagittarius-client
@@ -50,9 +50,8 @@ services:
     ports:
       - ${WEB_CLIENT_PORT}:8100
     environment:
-      VITE_SERVER_URL: "http://localhost:9512"
+      VITE_SERVER_URL: ${SERVER_URL}
       VITE_DEPLOYER_URL: ${DEPLOYER_URL}
-      SERVER_URL: ${SERVER_URL}
 
   compiler:
     container_name: sagittarius-compiler
