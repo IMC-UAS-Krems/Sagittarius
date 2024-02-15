@@ -1,26 +1,87 @@
 version: '3'
+include:
+  - ./db/supabase_docker/docker-compose.yml
+
+name: sagittarius
 services:
+  db-setup:
+    image: node:20-buster
+    depends_on:
+      - studio
+    restart: "no"
+    volumes:
+      - ${PWD}/db/init_database.js:/app/init_database.js
+      - ${PWD}/db/init_database.sh:/app/init_database.sh
+      - ${PWD}/src/web_server_client/prisma/schema.prisma:/app/prisma/schema.prisma
+      - ${PWD}/src/web_server_client/prisma/migrations:/app/prisma/migrations
+
+    command: ["sh", "-c", "/app/init_database.sh"]
+    working_dir: /app
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+
   server:
+    container_name: sagittarius-server
     build:
-      context: ./src/server
-      args:
-        compiler: ${COMPILER_URL}
-        db: ${DATABASE_URL}
-        supabase: ${SUPABASE_URL}
-        key: ${SUPABASE_KEY}
-        client: ${CLIENT_URL}
+      context: ./src/web_server_client
+      dockerfile: Dockerfile.server
+    depends_on:
+      db-setup:
+        condition:
+          service_completed_successfully
     ports:
-      - "8080:8080"
+      - ${WEB_SERVER_PORT}:9512
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      DATABASE_URL: ${DATABASE_URL}
+      VITE_MAPBOX_ACCESS_TOKEN: ${VITE_MAPBOX_ACCESS_TOKEN}
+
   client:
+    container_name: sagittarius-client
     build:
-      context: ./src/client
+      context: ./src/web_server_client
       args:
-        server: ${VUE_APP_SERVER_URL}
-        db: ${DATABASE_URL}
+        - VITE_SERVER_URL=${SERVER_URL}
+        - VITE_DEPLOYER_URL=${DEPLOYER_URL}
+    depends_on:
+      db-setup:
+        condition:
+          service_completed_successfully
     ports:
-      - "3000:80"
+      - ${WEB_CLIENT_PORT}:8100
+    environment:
+      VITE_SERVER_URL: "http://localhost:9512"
+      VITE_DEPLOYER_URL: ${DEPLOYER_URL}
+      SERVER_URL: ${SERVER_URL}
+
   compiler:
+    container_name: sagittarius-compiler
     build:
-      context: ./src/compiler
+      context: ./src/compiler/
     ports:
-      - "8796:8796"
+      - ${COMPILER_PORT}:8080
+
+  deployer:
+    container_name: sagittarius-deployer
+    build:
+      context: ./src/deployer
+    ports:
+      - ${DEPLOYER_PORT}:9000
+    environment:
+      AZURE_SUBSCRIPTION_ID: ${AZURE_SUBSCRIPTION_ID}
+      AZURE_GROUP_NAME: ${AZURE_GROUP_NAME}
+      AZURE_APP_PLAN: ${AZURE_APP_PLAN}
+      AZURE_FILE_SHARE_CONNECTION_STRING: ${AZURE_FILE_SHARE_CONNECTION_STRING}
+      AZURE_FILE_SHARE_NAME: ${AZURE_FILE_SHARE_NAME}
+      AZURE_USERNAME: ${AZURE_USERNAME}
+      AZURE_PASSWORD: ${AZURE_PASSWORD}
+      AZURE_CLIENT_ID: ${AZURE_CLIENT_ID}
+      GRAFANA_API_URL: ${GRAFANA_API_URL}
+
+
+  grafana:
+    container_name: sagittarius-grafana
+    build:
+      context: ./src/grafana_dashboard
+    ports:
+      - ${GRAFANA_API_PORT}:9000
