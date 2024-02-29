@@ -7,4 +7,4 @@ package-lock.json
 .vscode
 *log
 commits.md
-
+justfile
