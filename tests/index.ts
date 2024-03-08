@@ -23,38 +23,66 @@ application:
     type is Web
     layout is SinglePage
     roles -> User, SuperUser, Admin
-    panels -> Map, Pie, XY, TS, Bar
+    panels -> Map, Pie, XY, TS, Bar, SCMapPanel, SingleLine, MultiLine, ExtremeValues, Calendar
 
 Map:
     label is map
     type is geomap
     source is first
-    data -> location, stationName, O3, NO2, SO2, address
+    data -> location, stationName, O3, NO2, SO2, address, id
 
 Pie:
     label is pie
     type is pie_chart
     source is first
-    traces -> NOx, O3, NO2, SO2
+    traces -> NOx, O3, NO2, SO2, id
     pie_chart_type is pie
 
 XY:
     label is xy
     type is xy_chart
     source is first
-    traces -> dateObserved, NOx, O3, NO2, SO2
+    traces -> dateObserved, NOx, O3, NO2, SO2, id
 
 TS:
     label is ts
     type is timeseries
     source is first
-    traces -> dateObserved, NOx, O3, NO2, SO2
+    traces -> dateObserved, NOx, O3, NO2, SO2, id
 
 Bar:
     label is bar
     type is bar_chart
     source is first
     traces -> dateObserved, NOx, O3, NO2, SO2
+
+SCMapPanel:
+    type is smartcomm-map-panel
+    source is first
+    traces -> location, stationName, O3, NO2, SO2, address
+
+SingleLine:
+    type is smartcomm-simpleline-panel
+    source is first
+    traces -> dateObserved, NOx
+
+MultiLine:
+    type is smartcomm-multiplelinechart-panel
+    source is first
+    locations -> Escuelas Aguirre, Arturo Soria, Villaverde
+    traces -> dateObserved, NOx, O3, NO2
+
+ExtremeValues:
+    type is smartcomm-extremevalues-panel
+    source is first
+    locations -> Escuelas Aguirre, Arturo Soria, Villaverde
+    traces -> NOx, O3, NO2, SO2
+
+Calendar:
+    type is smartcomm-calendar-panel
+    source is first
+    locations -> Escuelas Aguirre, Arturo Soria, Villaverde
+    traces -> dateObserved, CO, NO, NOx, O3
 
 deployment:
     environments -> local
