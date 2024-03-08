@@ -122,8 +122,8 @@ const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
         await page.goto("http://localhost");
         await page.click('._headerMainContianer_1876s_1 > nav:nth-child(2) > ul:nth-child(1) > li:nth-child(4) > a:nth-child(1)');
-        await page.type('#textfield-cl-0-input', "email@example6.com");
-        await page.type('#textfield-cl-2-input', "password123");
+        await page.type('#textfield-cl-4-input', "email@example6.com");
+        await page.type('#textfield-cl-6-input', "password123");
         await page.click("html body.lightMode div#root main._signinMainContainer_8otdj_1 div._signinCardContainer_8otdj_13 button");
 
         await page.waitForSelector('html body.lightMode div#root main div.editor-container div.middle-column div div.cm-editor.ͼ1.ͼ2 div.cm-scroller div.cm-content');
