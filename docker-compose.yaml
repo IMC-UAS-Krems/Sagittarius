@@ -60,7 +60,6 @@ services:
       - ${WEB_CLIENT_PORT}:8100
     environment:
       VITE_SERVER_URL: ${SERVER_URL}
-      VITE_DEPLOYER_URL: ${DEPLOYER_URL}
 
   compiler:
     container_name: sagittarius-compiler
@@ -68,13 +67,17 @@ services:
       context: ./src/compiler/
     ports:
       - ${COMPILER_PORT}:8080
+    environment:
+      GRAFANA_URL: ${GRAFANA_API_URL}
+      DEPLOY_URL: ${DEPLOYER_URL}
+
 
   deployer:
     container_name: sagittarius-deployer
     build:
       context: ./src/deployer
     ports:
-      - ${DEPLOYER_PORT}:9000
+      - ${DEPLOYER_PORT}:9001
     environment:
       AZURE_SUBSCRIPTION_ID: ${AZURE_SUBSCRIPTION_ID}
       AZURE_GROUP_NAME: ${AZURE_GROUP_NAME}
@@ -84,7 +87,6 @@ services:
       AZURE_USERNAME: ${AZURE_USERNAME}
       AZURE_PASSWORD: ${AZURE_PASSWORD}
       AZURE_CLIENT_ID: ${AZURE_CLIENT_ID}
-      GRAFANA_API_URL: ${GRAFANA_API_URL}
       APP_URL_CONFIG: ${APP_URL_CONFIG}
       APP_DOCKER_REGISTRY_SERVER_URL: ${APP_DOCKER_REGISTRY_SERVER_URL}
       APP_DOCKER_REGISTRY_SERVER_USERNAME: ${APP_DOCKER_REGISTRY_SERVER_USERNAME}
