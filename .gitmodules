@@ -9,7 +9,7 @@
 [submodule "web_server_client"]
 	path = src/web_server_client
 	url = https://github.com/IMC-UAS-Krems/sag-client-server.git
-	branch = main
+	branch = Files-tree-view
 [submodule "dash_dashboard"]
 	path = src/dash_dashboard
 	url = https://github.com/IMC-UAS-Krems/Sagittarius-Dash-Dashboard.git
