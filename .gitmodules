@@ -1,7 +1,7 @@
 [submodule "compiler"]
 	path = src/compiler
 	url = https://github.com/IMC-UAS-Krems/Sag-c.git
-	branch = main
+	branch = mac-fix
 [submodule "grafana_dashboard"]
 	path = src/grafana_dashboard
 	url = https://github.com/IMC-UAS-Krems/GrafanaDashboards.git
