@@ -1,15 +1,15 @@
 [submodule "compiler"]
 	path = src/compiler
 	url = https://github.com/IMC-UAS-Krems/Sag-c.git
-	branch = mac-fix
+	branch = main
 [submodule "grafana_dashboard"]
 	path = src/grafana_dashboard
 	url = https://github.com/IMC-UAS-Krems/GrafanaDashboards.git
-	branch = dataskop
+	branch = main
 [submodule "web_server_client"]
 	path = src/web_server_client
 	url = https://github.com/IMC-UAS-Krems/sag-client-server.git
-	branch = Files-tree-view
+	branch = main
 [submodule "dash_dashboard"]
 	path = src/dash_dashboard
 	url = https://github.com/IMC-UAS-Krems/Sagittarius-Dash-Dashboard.git
