@@ -9,6 +9,7 @@ services:
     container_name: sagittarius-compiler
     build:
       context: ./src/compiler/
+      dockerfile: Dockerfile
     ports:
       - ${COMPILER_PORT}:8080
     environment:
@@ -19,8 +20,11 @@ services:
     container_name: sagittarius-deployer
     build:
       context: ./src/deployer
+      dockerfile: Dockerfile
     ports:
       - ${DEPLOYER_PORT}:9001
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       AZURE_SUBSCRIPTION_ID: ${AZURE_SUBSCRIPTION_ID}
       AZURE_GROUP_NAME: ${AZURE_GROUP_NAME}
@@ -40,6 +44,7 @@ services:
       APP_GF_SECURITY_ADMIN_USER: ${APP_GF_SECURITY_ADMIN_USER}
       APP_GEOCODING_KEY: ${APP_GEOCODING_KEY}
       APP_SECRET_KEY: ${APP_SECRET_KEY}
+      DOCKER_REG_PASSWORD: ${DOCKER_REG_PASSWORD}
 
   grafana:
     container_name: sagittarius-grafana
@@ -47,3 +52,39 @@ services:
       context: ./src/grafana_dashboard
     ports:
       - ${GRAFANA_API_PORT}:9000
+    restart: always
+    extra_hosts:
+      - "localhost:host-gateway"
+
+
+  orion:
+    image: telefonicaiot/fiware-orion
+    container_name: fiware-orion
+    ports:
+      - "1026:1026"
+    depends_on:
+      - mongo
+    command: -logLevel INFO -dbURI mongodb://mongo
+    #                              ^^^^^^^^^^^^^^^^
+    #                                         ↳ this can be any connection string:
+    #                                             - docker: mongodb://mongo
+    #                                             - local or docker: mongodb://localhost (if port in docker is exposed)
+    #                                             - any other host: cloud storage or another laptop mongodb://<any public url or IP address>
+    #
+
+  mongo:
+    image: mongo:6.0
+    restart: always
+    container_name: mongo
+    ports:
+      - 27017:27017
+
+  fiware-admin:
+    container_name: fiware-admin
+    build:
+      context: .
+      dockerfile: fiware_admin.Dockerfile
+      #            ^^^^^^^^^^^^^^^^^^^^^^^
+      #                          ↳ this can be any docker file, you can keep it here or move it somewhere else
+    depends_on:
+      - orion
