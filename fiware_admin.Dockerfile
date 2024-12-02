@@ -13,9 +13,9 @@ RUN pip install --upgrade setuptools && pip install -r requirements.txt && rm -r
 COPY ./src/fiware_admin/*.py .
 COPY ./src/fiware_admin/examples/ ./examples
 
-# NOTE: I noticed that air_quality.json contains only one entity... I will create a PR with a better data but for now we can this
-# Once we will have good data in the examples directory, you can remove this block
-# This long command just fetches the data from the FIWARE Lab and removes the entities with "latest" in their id
+# NOTE: I noticed that air_quality.json contains only one entity. I will create a PR with better data, but for now, we can use this
+# Once we have good data in the examples directory, you can remove this block
+# This long command fetches the data from the FIWARE Lab and removes the entities with "latest" in their ID
 RUN apt-get update && apt-get install curl jq -y --no-install-recommends && \
     curl -G 'https://streams.lab.fiware.org/v2/entities' -H 'fiware-service: environment' --data-urlencode 'limit=1000' | jq 'map(select(.id | contains ("latest") | not))' > examples/air_quality.json
 
