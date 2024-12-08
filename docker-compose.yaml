@@ -52,10 +52,8 @@ services:
       context: ./src/grafana_dashboard
     ports:
       - ${GRAFANA_API_PORT}:9000
-    restart: always
     extra_hosts:
       - "localhost:host-gateway"
-
 
   orion:
     image: telefonicaiot/fiware-orion
@@ -74,7 +72,6 @@ services:
 
   mongo:
     image: mongo:6.0
-    restart: always
     container_name: mongo
     ports:
       - 27017:27017
