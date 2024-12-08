@@ -10,14 +10,10 @@
 	path = src/web_server_client
 	url = https://github.com/IMC-UAS-Krems/sag-client-server.git
 	branch = main
-[submodule "dash_dashboard"]
-	path = src/dash_dashboard
-	url = https://github.com/IMC-UAS-Krems/Sagittarius-Dash-Dashboard.git
-	branch = master
 [submodule "deployer"]
 	path = src/deployer
 	url = https://github.com/IMC-UAS-Krems/Sagittarius-Deployment.git
-	branch = local_deployment
+	branch = master
 [submodule "fiware_admin"]
 	path = src/fiware_admin
 	url = https://github.com/IMC-UAS-Krems/fiware_admin.git
