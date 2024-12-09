@@ -1,0 +1,4 @@
+services:
+  deployer:
+    volumes:
+      - /Users/${USER}/.docker/run/docker.sock:/var/run/docker.sock
