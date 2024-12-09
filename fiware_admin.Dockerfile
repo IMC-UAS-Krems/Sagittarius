@@ -16,8 +16,8 @@ COPY ./src/fiware_admin/examples/ ./examples
 # NOTE: I noticed that air_quality.json contains only one entity. I will create a PR with better data, but for now, we can use this
 # Once we have good data in the examples directory, you can remove this block
 # This long command fetches the data from the FIWARE Lab and removes the entities with "latest" in their ID
-RUN apt-get update && apt-get install curl jq -y --no-install-recommends && \
-    curl -G 'https://streams.lab.fiware.org/v2/entities' -H 'fiware-service: environment' --data-urlencode 'limit=1000' | jq 'map(select(.id | contains ("latest") | not))' > examples/air_quality.json
+RUN apt-get update && apt-get install curl -y --no-install-recommends && \
+    curl -s --output examples/air_quality.json https://raw.githubusercontent.com/bobokrut/fiware_admin/refs/heads/main/examples/air_quality.json
 
 # WARNING: do not paste token in here, use env variable instead
 RUN echo '{ \n\
