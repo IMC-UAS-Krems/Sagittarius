@@ -13,7 +13,7 @@
 [submodule "deployer"]
 	path = src/deployer
 	url = https://github.com/IMC-UAS-Krems/Sagittarius-Deployment.git
-	branch = master
+	branch = mac_fix_leen
 [submodule "fiware_admin"]
 	path = src/fiware_admin
 	url = https://github.com/IMC-UAS-Krems/fiware_admin.git
