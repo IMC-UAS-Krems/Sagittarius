@@ -1,7 +1,7 @@
 [submodule "compiler"]
 	path = src/compiler
 	url = https://github.com/IMC-UAS-Krems/Sag-c.git
-	branch = main
+	branch = include_statements
 [submodule "grafana_dashboard"]
 	path = src/grafana_dashboard
 	url = https://github.com/IMC-UAS-Krems/GrafanaDashboards.git
@@ -9,7 +9,7 @@
 [submodule "web_server_client"]
 	path = src/web_server_client
 	url = https://github.com/IMC-UAS-Krems/sag-client-server.git
-	branch = main
+	branch = SAG-116
 [submodule "deployer"]
 	path = src/deployer
 	url = https://github.com/IMC-UAS-Krems/Sagittarius-Deployment.git
