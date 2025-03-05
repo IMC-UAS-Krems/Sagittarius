@@ -15,6 +15,9 @@ services:
     environment:
       GRAFANA_URL: ${GRAFANA_API_URL}
       DEPLOY_URL: ${DEPLOYER_URL}
+      WEB_TOKEN: ${WEB_TOKEN}
+    extra_hosts:
+      - "localhost:host-gateway"
 
   deployer:
     container_name: sagittarius-deployer
